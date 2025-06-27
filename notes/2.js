@@ -49,3 +49,40 @@ summary you now know
     That module components need standalone: false when declared inside a module
     That API calls (like /api/courses) only trigger when the corresponding route is visited
 */
+
+// COURSE 10
+/*
+Best Practices
+
+all in app-routing.module.ts
+
+1. Page Not Found Route (`**`)
+    Implemented using the wildcard path `**`, which matches notice any route.
+    Displays the `PageNotFoundComponent`.
+        If placed earlier, it will override all routes since `**` matches everything.
+    PageNotFound template
+        add routerLink to / ,thats our next step
+
+2. Root/Landing page Redirect Route 
+    Handles the case when the user visits the root path
+        with or without / are ok
+    The goal is to redirect users to `/courses` (home screen).
+    Configured with:
+        `path: ""`
+        `redirectTo: "/courses"`
+        `pathMatch: "full"` — ensures it only matches an exact empty path and not every route.
+    notice without `pathMatch: "full"`, this route would behave incorrectly by matching all paths as a prefix.
+
+side notes Why Order Matters
+    Angular matches routes from top to bottom.
+    As soon as it finds a match, it stops.
+    Therefore, placing the `**` wildcard route anywhere but last will block access to all other routes.
+
+summary
+* Wildcard (`**`) routes provide a fallback for undefined paths, always at the end
+* Root redirects (`""`) help direct users to the main landing screen.
+* `pathMatch: "full"` is essential when redirecting from the empty path.
+* Good routing hygiene improves both user experience and maintainability.
+
+
+*/
