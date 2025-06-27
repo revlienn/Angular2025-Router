@@ -1,4 +1,4 @@
-// COURSE 4
+// COURSE 5
 /*
 
 Single Page Applications (SPAs) vs. Multi-Page Applications (MPAs)
@@ -44,5 +44,57 @@ Learn about:
     Navigation basics
     Lazy loading
      Auxiliary routes
+
+*/
+
+// COURSE 6 - 7
+/*
+
+1. Initial State
+    The app currently has no routing capabilities.
+    The goal is to integrate the Angular Router and configure basic routes.
+
+2. Setting Up Angular Router
+    app.module.ts
+        ensure bootstrap has AppRoutingModule
+    app-routing.module.ts
+        Import `RouterModule.forRoot([])` with an initially empty routes array
+            { path: "urltext", component: chooseComponent }
+        Export `RouterModule` so it's available app-wide.
+
+3. Displaying Routed Components
+    app.component.html
+        add <router-outlet></router-outlet>
+        This tells Angular where to render the component that matches the current route.
+        Add Router Links:
+            [routerLink]="['about']", good for relative/dynamically produced
+            routerLink="about", ok for static
+
+4. Active link styling
+    adds a CSS class when the link is active
+    app.component.css
+        make the class, e.g., menu-item-active
+    app.component.html
+        inside the tag, routerLinkActive="menu-item-active"
+
+
+5. Discuss Path Types:
+    Relative paths are good for flexibility and refactoring.
+        [routerLink]="['about']"
+    But in this case (top menu), absolute paths are used to ensure correct behavior, especially when navigating from deeply nested routes.
+        notice use /, eg routerLink="/login"
+
+summary
+You now know:
+    How to define paths and matching components
+    How to use <router-outlet> to display components
+    How to navigate using routerLink
+    How to visually indicate the active route using routerLinkActive
+
+Next Steps in Course:
+    Build the HomeComponent showing a list of courses.
+    Navigate to individual course detail pages via child routes.
+    Start developing a realistic master-detail navigation structure.
+
 
 */
