@@ -193,3 +193,65 @@ You now know
     That router transitions don’t complete until the resolver’s observable emits and completes
 
 */
+
+// COURSE 13
+/*
+
+want
+Show a global loading spinner
+    While navigating between routes
+    While resolving data (e.g. via resolvers)
+    While lazy-loaded modules are being fetched
+
+context 
+Existing Setup
+    app>shared>loading
+    `LoadingComponent` uses `LoadingService` to show/hide a spinner via a boolean observable
+        Controlled manually using loadingService.loadingOn() and loadingOff()
+        No router integration yet
+        <loading> is atm in app template
+
+1. Add Router Awareness to LoadingComponent
+loading.component.ts
+    Add new `@Input() detectRoutingOngoing: boolean = false`
+    Enables optional integration with Angular Router, because we dont want to turn it on for all route, only for some   
+    app template
+        inside loading, set `[detectRoutingOngoing]="true"` for the spinner
+
+2. Detect Router Events
+loading.component.ts
+    Inject router
+    NgOnInit, if detectRoutingOngoing true,
+        Subscribe to router.events=
+        `NavigationStart` when starting to redirect → call loadingOn()
+        `NavigationEnd`, `NavigationCancel`, `NavigationError` → loadingOff()
+            end: done succesfully
+            error: eg connection error
+            cancel: user presses back before finish
+
+3. Handle Lazy Module Loading Events
+    Also listen for:
+    `RouteConfigLoadStart` → call `loadingOn()` (when lazy-loaded module begins loading)
+    `RouteConfigLoadEnd` → call `loadingOff()` (when module is done loading)
+
+4. Test
+    Route Transitions
+        Navigate from `/courses` to a course detail page
+            → Loading spinner appears during resolver-based data fetching
+        Navigate between courses
+            → Spinner shows briefly while data resolves
+    Lazy-Loading
+        Start from `/login` (no courses module loaded yet)
+        Navigate to `/courses`
+            → Spinner shows while the lazy-loaded module is being fetched
+        Subsequent visits don’t trigger loading again (module is cached)
+
+You now know (Course 13)
+    How to use Angular router events to detect navigation and module loading status
+    How to conditionally show a loading spinner during route transitions and lazy loading
+    How to extend a shared `LoadingComponent` to optionally integrate with routing
+    That `RouteConfigLoadStart` and `RouteConfigLoadEnd` are specific to lazy-loaded modules
+    How router-based UX improvements can give users real-time feedback during app loading
+
+
+*/
