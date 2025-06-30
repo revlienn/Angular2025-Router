@@ -138,3 +138,42 @@ Confirmed behavior by simulating logout and child route access.
 Guards only impact frontend routing, not backend security.
 
 */
+
+// COURSE 23
+/*
+
+1. What is a CanDeactivate Guard?
+Executes when navigating away from a component.
+    notice doesnt apply to its Child Route, see later
+Used to prevent leaving if:
+    There’s unsaved data
+    An operation is in progress
+    To confirm user intent, "Are you sure ?"
+
+
+2. Implementing the Guard
+Course script
+    new method, confirmExit, pop the confirm window
+
+app,services, new file confirm-exit.guard.ts
+    boilerplate injectable, implement CanDeactivate, par isthe component so CourseComponent
+    inside CanDeactivate, execute confirmExit
+
+3. Add to Router
+add to providers array
+add canDeactivate
+
+4. Behavior When Testing
+Navigating away from /courses/:courseUrl (e.g. to /about) → triggers the popup.
+Clicking “Cancel” in the confirm dialog → prevents navigation.
+Clicking “OK” → allows navigation.
+notice Navigating to a child route (e.g. lesson detail) or details to details won't trigger CanDeactivate.
+
+You now know (Course 23)
+    CanDeactivate runs when navigating away from a component (not child routes).
+    How to prompt users with window.confirm() to avoid accidental loss of state.
+    That it’s useful for unsaved forms, active uploads, or just confirming navigation.
+    CanDeactivate guards must be declared per-route like CanActivate, and support multiple guards.
+
+
+*/
