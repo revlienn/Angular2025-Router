@@ -177,3 +177,45 @@ You now know (Course 23)
 
 
 */
+
+// COURSE 24
+/*
+
+1. What is a CanLoad Guard?
+A route guard specific to lazy-loaded modules.
+Runs before the code for the module is downloaded.#
+CanActivate blocks access to components, but the module’s code still gets loaded.
+CanLoad blocks both the navigation and the module's download, improving performance and security.
+
+2. Use Case
+You want to block unauthenticated users from accessing the CoursesModule, which is lazy-loaded.
+If not logged-in, redirect to the login page
+
+3. Implementing CanLoad
+app, service, new file can-load-auth.guard.ts
+    notice not service inside course
+boilerplate injectable, export, implement
+    constructor, inject AuthStore and router
+canLoad must complete the observable, so    
+    Use first(), completes with the first emitted value
+    if not loggedIn, redirect, use tap
+
+4. Configure Routes
+app-routing.module.ts
+    add to providers
+    path: 'courses', canLoad: [CanLoadAuthGuard]
+
+5. How it behaves
+✅ If logged in, the module loads and navigation proceeds.
+❌ If logged out, the user is redirected to /login and you cant open the courses page
+    Confirm this via the Network tab (JS bundle not requested).
+
+You now know (Course 24)
+CanLoad guards prevent the download of lazy-loaded modules for unauthorized users.
+Ideal for performance-sensitive or restricted routes.
+Requires:
+    An auth observable
+    A redirect using Router if unauthenticated
+Complements CanActivate, but handles module loading, not just rendering.
+
+*/
