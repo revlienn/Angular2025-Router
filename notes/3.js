@@ -223,7 +223,7 @@ courses-routing.module.ts:
 LessonDetailComponent script
     ngOnInit, this.lesson = this.route.snapshot.data['lesson'];
     why lesson? 
-        refresh in courses-routing, resolve: { lesson: LessonsResolver }
+        refresh in courses-routing, resolve: { lesson: LessonsDetailResolver }
 
 7. Testing the Flow
 Click a lesson from the LessonsListComponent.
