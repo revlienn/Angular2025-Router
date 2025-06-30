@@ -140,6 +140,104 @@ You now know (Course 15)
 // COURSE 16
 /*
 
+1. Goal of the Lesson
+    atm nothing happened when you click one of the lesson in the LessonsList
+    want Enable navigation from LessonsListComponent to LessonDetailComponent when a lesson row is clicked.
+    Prepare for a master-detail view with upcoming detail-to-detail navigation.
+
+2. Current Setup Recap
+LessonDetailComponent is already configured in the courses-routing:
+    path: 'lessons/:lessonSeqNo',
+    component: LessonDetailComponent
+
+3. Adding Navigation via RouterLink
+LessonsListComponent template (the table view).
+    [routerLink]="['lessons', lesson.seqNo]"
+    refresh again, lesson.seqNo is the var you set in courses-routing
+    summary
+        'lessons': static 
+        lesson.seqNo: dynamic  (e.g., 17)
+Together, this forms a valid route to the lesson detail view.
+This creates a relative path, meaning:
+    If you're currently at: /courses/angular-router-course
+    Clicking a lesson with seqNo = 17 navigates to: /courses/angular-router-course/lessons/17
+
+4. Why Use Relative/Dynamic Navigation
+    Easier and cleaner than building an absolute path from the root.
+    Works because the route is a child of the current one (i.e., CourseComponent).
+
+5. Preview of Next Steps
+LessonDetailComponent currently doesn’t fetch its data, still does nothing
+In the next lesson:
+    We’ll create a LessonResolver to fetch lesson details.
+    We’ll address a common router quirk when navigating between two details (same component but different data).
+
+You now know (Course 16)
+    How to link a table row to a detail route using routerLink and dynamic values.
+
+*/
+
+// COURSE 17
+/*
+
+1. Goal
+    Display full details of a specific lesson using LessonDetailComponent.
+    Securely fetch data using a route resolver before the component loads.
+    Integrate video playback via a trusted YouTube URL.
+
+2. Lesson Detail Component Overview
+Template
+    Lesson description, duration
+    Previous/Next lessons buttons
+    Back to course button, back to lessons list
+    Video player, uses a safe URL pipe to sanitize the YouTube embed link for Angular templates.
+Script
+    lesson: LessonDetail[] 
+        notice LessonDetail has videoId, the goal is to only show the vid to loggedin/premium user
+        LessonDetail Fetched via a secure REST endpoint: /api/lesson-details.
+        hence LessonsList and LessonDetail are fetched by different API requests
+            so we need a new resolver for lesson detail
+
+4. Creating LessonDetailResolver
+Courses, services, new file lesson-detail.resolver.ts
+Resolver boilerplate, injectable, implements, par type
+    constructor, injects CoursesService 
+Resolve
+    return Observable<LessonDetail> 
+    const courseUrl = route.parent?.paramMap.get('courseUrl');
+        notice why .parent
+            because it’s the parent route (CourseComponent), not the last par
+            eg /courses/courseName/lesson/17
+            courseUrl is courseName
+                refresh why courseUrl, cos you set this var in courses-routing
+    const lessonSeqNo = route.paramMap.get('lessonSeqNo');
+        .parent not needed because this is the last par eg 17 in the above
+    return this.coursesService.loadLessonDetail(courseUrl, lessonSeqNo);
+
+5. Integrating Resolver in the Router
+courses-routing.module.ts:
+    Providers, Add LessonDetailResolver
+    component: LessonDetailComponent, add resolve
+
+6. Fetching Resolved Data in the Component
+LessonDetailComponent script
+    ngOnInit, this.lesson = this.route.snapshot.data['lesson'];
+    why lesson? 
+        refresh in courses-routing, resolve: { lesson: LessonsResolver }
+
+7. Testing the Flow
+Click a lesson from the LessonsListComponent.
+Navigation triggers:    
+    LessonDetailResolver fetches data.
+LessonDetailComponent renders
+    Title, description, video (via iframe), nav buttons.
+
+You now know (Course 17)
+    How to create and use a route resolver to preload component data.
+    How to retrieve parent route params in nested child resolvers.
+    Why splitting public and private APIs (e.g., summary vs detail) is a good security practice.
+    How to safely embed a YouTube video in Angular using a sanitizer pipe
+    How to properly configure and test router data preloading with resolve.
 
 
 */
