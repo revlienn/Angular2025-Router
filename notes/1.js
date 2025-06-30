@@ -61,6 +61,7 @@ Learn about:
         Import `RouterModule.forRoot([])` with an initially empty routes array
             { path: "urltext", component: chooseComponent }
         Export `RouterModule` so it's available app-wide.
+        
 
 3. Displaying Routed Components
     app.component.html
