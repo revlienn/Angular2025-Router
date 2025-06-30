@@ -98,3 +98,43 @@ Why frontend guards are for UX only, not real security.
 How to plug your guard into route definitions and test the flow end-to-end.
 
 */
+
+// COURSE 22
+/*
+
+1. Problem With Just CanActivate
+The CourseComponent was protected using CanActivate.
+If you logged in, go to certain course's page eg courses/courseName, then logged out, error point you'll stay at the same page even tho it's supopsed to be protected
+You can also click one of the lesson/lesson details
+This happens without refreShing the browser.
+    Example: click "View Course" → logout → click a lesson → lesson detail is incorrectly accessible.
+
+2. Root Cause
+The original AuthGuard only protected the parent route.
+It did not protect nested child routes like lesson/:seqNo.
+
+3. Solution: Implement CanActivateChild
+auth.guard.ts
+Implement both CanActivate and CanActivateChild
+Add this method
+    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+    return this.checkIfAuthenticated();
+    }
+Extract shared logic into a private method:
+    the code is identical, so create a new function checkIfAuthenticated, refactor and return inside both canActivate and canActivateChild
+
+4. Update Routing Configuration
+In courses-routing.module.ts :courseUrl, protect child routes too:
+    canActivateChild: [AuthGuard]
+
+5. Testing Behavior
+Notice, you'll still be in the course page, but cant go to course detail anymore, will be redirected to login page
+
+You now know (Course 22)
+Why CanActivate is not enough to protect nested routes.
+How to implement CanActivateChild using the same logic.
+How to update your routing config to secure both parent and child routes.
+Confirmed behavior by simulating logout and child route access.
+Guards only impact frontend routing, not backend security.
+
+*/
