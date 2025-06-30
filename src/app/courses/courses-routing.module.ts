@@ -7,6 +7,7 @@ import { LessonDetailComponent } from "./lesson/lesson-detail.component";
 import { LessonsListComponent } from "./lessons-list/lessons-list.component";
 import { LessonsResolver } from "./services/lessons.resolver";
 import { LessonDetailResolver } from "./services/lesson-detail.resolver";
+import { AuthGuard } from "../services/auth.guard";
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
   {
     path: ":courseUrl",
     component: CourseComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: "lessons/:lessonSeqNo",
@@ -35,6 +37,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [CourseResolver, LessonsResolver, LessonDetailResolver],
+  providers: [CourseResolver, LessonsResolver, LessonDetailResolver, AuthGuard],
 })
 export class CoursesRoutingModule {}
