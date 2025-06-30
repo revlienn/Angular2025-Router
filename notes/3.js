@@ -318,4 +318,6 @@ You now know (Course 19)
     How to combine resolvers + observables + async pipe to handle route reuse correctly
     That this master-detail navigation pattern is common and reusable in real Angular apps
 
+notice in the new ng, Lesson will straight up wont work without the data.pipe, it worked in Vasco's vis but not now, so gotta use data.pipe for detail to detail navigation
+
 */
