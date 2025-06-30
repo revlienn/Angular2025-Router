@@ -236,8 +236,86 @@ You now know (Course 17)
     How to create and use a route resolver to preload component data.
     How to retrieve parent route params in nested child resolvers.
     Why splitting public and private APIs (e.g., summary vs detail) is a good security practice.
-    How to safely embed a YouTube video in Angular using a sanitizer pipe
     How to properly configure and test router data preloading with resolve.
 
+
+*/
+
+// COURSE 18
+/*
+
+1. want Enable users to
+Go back to the course’s lessons list
+Navigate to the previous or next lesson from the detail view
+Understand a key behavior of Angular Router related to reusing component instances
+
+2. Implement "Back to Course" Button
+When you're in lesson-detail, 
+    your url is /courses/courseName/lessons/1
+    want go to course /courses/courseName
+    so grandparent
+lesson-detail template, find the back to course
+    <a [routerLink]="['../..']">Back to Course</a>
+
+3. Implement "Previous" and "Next" Navigation (Programmatic)
+template    
+    Both next and prev buttons have condition
+        eg *ngIf="!lesson.last"
+script
+    inject router
+        route is to fetch url, routeR is directing to other place
+    new method previous
+        par is lesson, your current location
+        refresh is courses-routing
+            /courses/:courseUrl/lessons/1 parent is /courses/:courseUrl
+            dont get confused courseUrl is just courseName
+        navigate should be relative to parent, so dynamic
+        inside array lessons, then the seqNo
+    do the same with next
+
+4. Runtime Issue Discovered
+Clicking Next/Previous updates the URL, but not the lesson data
+This is because
+    ngOnInit() does not run again on parameter change
+    hence Resolver runs only once 
+
+see next course
+
+*/
+
+// COURSE 19
+/*
+1. error point
+Clicking “Previous” or “Next” updated the URL, but not the displayed lesson
+Why? ngOnInit() and the constructor run only once, so the new data wasn't reloaded
+
+2. Why Snapshot Fails
+ActivatedRoute.snapshot.data holds only the initial data when the component is created
+It doesn’t update on future navigations because Angular doesn't reinstantiate the component
+notice you have console log inside the constr, when you click next, console log wont get renewed because the angular doesnt reproduce a new component
+
+3. The Fix: Use ActivatedRoute.data Observable
+Replace .snapshot.data with the .data observable
+    .snapshot.data only retrieve the first result, hence not updating
+    .data emits new values on each navigation, even within the same component
+        notice it produces an Observable type
+Lesson-detail script
+    snapshot.data['lesson'] to .data, pipe it
+    assign to lesson$
+        notice Vasco pre-changed this so you wont see it on git
+Lesson-detail template
+    change lesson to *ngIf="lesson$ | async as lesson
+    the rest can stay the same bcos you use alias as above
+
+4. Why This Works
+    The resolver still fetches data correctly on every navigation
+        bcos now you use .data, instead of snapshot.data#
+
+You now know (Course 19)
+    That Angular reuses components for same-route navigations (e.g., lesson → another lesson)
+    Why ActivatedRoute.snapshot doesn’t update after initial component load
+    How to use ActivatedRoute.data observable to get updated values from resolvers
+    How to combine resolvers + observables + async pipe to handle route reuse correctly
+    That this master-detail navigation pattern is common and reusable in real Angular apps
 
 */
