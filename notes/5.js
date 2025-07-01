@@ -162,7 +162,7 @@ Inside the routerLink and routerLinkActive tag
     </a>
 
 5. Behavior with exact: true
-✅ /courses ➝ menu-item-active is added.
+/courses ➝ menu-item-active is added.
 ❌ /courses/1 or /courses/1/lessons/2 ➝ menu-item-active is not added.
 
 You now know (Course 28)
@@ -314,5 +314,65 @@ You Now Know (Course 31):
     How to debug router transitions with enableTracing.
     How and when to use the hash location strategy (useHash: true) to prevent server-side routing issues.
     That useHash URLs work reliably across any server without extra config.
+
+*/
+
+// COURSE 32
+/*
+
+1. Scroll Position Restoration
+Purpose: Controls how the scroll behaves after navigation.
+Options:
+    "disabled" (default) – no scroll changes on navigation.
+    "top" – scrolls to the top on every navigation.
+    "enabled" – scrolls to top on forward nav, and restores previous position on back nav.
+Recommended:
+scrollPositionRestoration: 'enabled'
+
+2. Parameters Inheritance Strategy
+Default: "emptyOnly" – only includes parameters from the current route/the last
+Recommended:
+    paramsInheritanceStrategy: 'always'
+    Lets you access all route parameters (including parent routes) from one place—simplifies code, especially in resolvers.
+refresh lesson-detail.resolver you need parent.paramMap because :courseUrl isn't the last param
+    with paramsInheritanceStrategy: 'always', you can access all without parent because it inherits the knowledge
+
+
+3. Relative Link Resolution, not in 2025
+Default: "legacy" – causes issues with components using path: ''.
+Recommended:
+    relativeLinkResolution: 'corrected'
+Why? Fixes odd behavior when using relative links inside components mapped to empty paths.
+
+4. Malformed URI Error Handler, not in 2025
+Catches parsing errors in the URL, prevents your app from crashing on bad URLs.
+Example setup:#
+    malformedUriErrorHandler: (error, urlSerializer, url) => {
+    return urlSerializer.parse('/page-not-found');
+    }
+
+5. Hash Location Strategy
+useHash: true, see previous course
+if your server cannot handle HTML5 pushState URLs (e.g., can’t fallback to index.html).
+notice Not recommended unless necessary.
+
+6. Enable Tracing
+Set to true for debugging, see previous course
+    enableTracing: true
+notice Only for development — too verbose for production.
+
+Example Final Router Setup:
+RouterModule.forRoot(routes, {
+  scrollPositionRestoration: 'enabled',
+  paramsInheritanceStrategy: 'always',
+  relativeLinkResolution: 'corrected',
+  malformedUriErrorHandler: (error, urlSerializer, url) =>
+    urlSerializer.parse('/page-not-found'),
+})
+
+You Now Know (Course 32):
+The essential router configuration flags for a robust, bug-free Angular app.
+Why to avoid legacy defaults and activate modern behavior from the start.
+How to ensure smooth scrolling, simpler parameter access, and graceful handling of invalid URLs.
 
 */
