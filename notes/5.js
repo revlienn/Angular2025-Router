@@ -132,3 +132,42 @@ You now know (Course 27)
     Snapshot is fine for initial load; use observable if query parameters might change while staying on the same component instance.
 
 */
+
+// COURSE 28
+/*
+
+1. refresh routerLinkActive Directive
+Used to apply a CSS class (e.g., menu-item-active) to a navigation element when the associated route is active.
+    <a routerLink="/courses" routerLinkActive="css class name">Courses</a>
+
+
+2. Default Behavior
+The CSS class is applied not only when the route matches exactly, but also when notice any child route is active. e.g.,
+        /courses
+        /courses/1 
+        /courses/1/lessons/2 
+All will still trigger menu-item-active because they're child routes.
+
+3. The Problem
+You don’t want the link to stay active/have css applied when a child route is active. Example:
+    only want Courses menu item highlighted if the route is exactly /courses, not when on /courses/1.
+
+4. The Solution: routerLinkActiveOptions
+Inside the routerLink and routerLinkActive tag
+    <a 
+    routerLink="/courses" 
+    routerLinkActive="menu-item-active" 
+    [routerLinkActiveOptions]="{ exact: true }"> notice
+    Courses
+    </a>
+
+5. Behavior with exact: true
+✅ /courses ➝ menu-item-active is added.
+❌ /courses/1 or /courses/1/lessons/2 ➝ menu-item-active is not added.
+
+You now know (Course 28)
+    How to highlight menu items using routerLinkActive.
+    Why Angular highlights parent routes by default when child routes are active.
+    How to enforce exact matching with [routerLinkActiveOptions]="{ exact: true }" when needed.
+
+*/
