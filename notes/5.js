@@ -171,3 +171,55 @@ You now know (Course 28)
     How to enforce exact matching with [routerLinkActiveOptions]="{ exact: true }" when needed.
 
 */
+
+// COURSE 29
+/*
+
+1. What Are Secondary Outlets?
+Angular's router-outlet is where route components are rendered.
+    Normally, only one primary outlet exists, in app.component.html
+Secondary outlets allow displaying multiple components in different areas of the page — regardless of the URL.
+    Example: A Helpdesk Chat Window at the bottom of the app, opened by clicking a “?” icon in the menu.
+    This chat window should remain visible even if you navigate across routes like /courses, /about, etc.
+
+2. How to Define a Secondary Outlet
+app.component.html
+    Ath the bottom, Add a named router-outlet in the template:
+        <router-outlet name="chat"></router-outlet>
+    The unnamed outlet is the primary outlet.
+
+3. How to Configure a Route for the Secondary Outlet
+app-routing.module.ts, new path
+    {
+    path: 'helpdesk-chat',
+    component: ChatComponent,
+    outlet: 'chat' notice similar to name="chat" above
+    }
+
+4. Navigating to a Secondary Outlet
+Inside the tag eg button that'll open the chat above, add routerLink
+    [routerLink]="[{ outlets: { chat: ['helpdesk-chat'] } }]"
+    refresh routeroutletname:['pathname in app routing module']
+You can keep the primary route unchanged and open the secondary outlet separately.
+
+5. URL Format for Secondary Outlets
+URL becomes:
+    /courses(aux:chat:helpdesk/chat)
+        /courses → primary outlet
+        (aux:chat:...) → secondary outlet
+Multiple secondary outlets can be chained:
+/page(chat:helpdesk-chat)(othername:otherpath)
+
+6. What Happens During Navigation
+    Clicking Help opens the ChatComponent in the chat outlet.
+    The main content (primary outlet) stays unchanged.
+    Navigating to other routes like /about still preserves the chat window.
+    Refreshing the page retains the state, because the URL fully represents the routing state/keeping the secondary outlet
+
+You Now Know (Course 29):
+    How to use multiple router outlets.
+    How to create and configure named outlets.
+    How to navigate to secondary outlets using [routerLink] and custom paths.
+    How Angular maintains the state of multiple outlets via the URL.
+
+*/
