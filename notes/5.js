@@ -46,3 +46,53 @@ You now know (Course 25)
 
 
 */
+
+// COURSE 26
+/*
+
+1. Goal
+Create a custom strategy to control which lazy-loaded modules are preloaded.
+refresh Angular has built-in strategies:
+    NoPreloading (default)
+    PreloadAllModules
+want preload only some modules (e.g. courses)
+    User profile, eg preload premium course module for premium user
+    Authentication state, eg preload admin module for admin users
+    Route-specific config
+
+2. Set Up Route Configuration
+In AppRoutingModule, add data: { preload: true } to a route:
+{
+  path: 'courses',
+  ...
+  data: { preload: true }
+}
+
+3. Create the Custom Strategy
+app, service, new filecustom-preloading.strategy.ts
+boilerplate, export class, injectable, implements preloadingstrategy
+change fn to load()
+    basically, if route has preload prop, return load
+        refresh we just set it above for course
+    else null
+
+4. Plug the Strategy into the Router
+Register in providers
+In AppRoutingModule
+    RouterModule.forRoot(routes, {
+    preloadingStrategy: CustomPreloadingStrategy
+    })
+
+5. Test the Behavior
+With preload: true, the lazy-loaded module (e.g. courses) is loaded in the background.
+notice if you change path:course preload: false, it waits until the user navigates to that route, so lazy-loaded in place
+
+You now know (Course 26)
+    How to build and register a custom preloading strategy.
+    How to control preloading via data: { preload: true/false } on routes.
+    When preload() is called: before navigation occurs, Angular decides whether to load a module.
+    Custom strategies allow optimized, user-aware preloading.
+
+
+
+*/
