@@ -223,3 +223,50 @@ You Now Know (Course 29):
     How Angular maintains the state of multiple outlets via the URL.
 
 */
+
+// COURSE 30
+/*
+
+1. Recap of Secondary Outlet (Chat Example)
+The app uses a secondary outlet named chat to show a chat window while browsing.
+Chat appears using a router outlet:
+    <router-outlet name="chat"></router-outlet>
+
+2. How to Close a Secondary Outlet
+The close chat button is in chat.comp.html
+    [routerLink]="['/', { outlets: { chat: null } }]
+This removes the component from the secondary outlet.
+
+3. Temporary Workaround Needed
+notice atm July2025, there's no bug anymore
+    closing the chat
+
+4. Known Bug
+notice atm July2025, there's no bug anymore
+    closing the chat will remove the secondary outlet
+    reloading the page didnt cause app to crash
+Vasco's bug, not on mine:
+    Even when closed, the URL may retain an empty secondary outlet, like:
+        /courses(routerName:routerPath)
+    Reloading the page with this URL may cause the app to crash.
+    The issue is still open at the time of recording.
+
+5. Recommendation: Don't Use Secondary Outlets in Production
+Unstable behavior makes secondary outlets not production-safe.
+Better alternatives:
+    Use Angular Material Dialog.
+    Or use Angular CDK overlays/dialogs.
+
+6. Selective Import in Angular Material
+You don’t need the full Angular Material library.
+You can import only what you need, e.g., just:
+    MatDialogModule
+    MatDatepickerModule
+
+You Now Know (Course 30):
+    How to close a secondary outlet using routerLink.
+    Why secondary outlets are not recommended for production use.
+    A more stable solution is to use modal dialogs like Angular Material's.
+    Angular Material can be selectively imported to keep bundle size small.
+
+*/
