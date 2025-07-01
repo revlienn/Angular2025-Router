@@ -32,6 +32,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes, {
       preloadingStrategy: CustomPreloadingStrategy,
+      enableTracing: false,
+      useHash: true,
     }),
   ],
   exports: [RouterModule],

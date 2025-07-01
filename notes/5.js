@@ -270,3 +270,49 @@ You Now Know (Course 30):
     Angular Material can be selectively imported to keep bundle size small.
 
 */
+
+// COURSE 31
+/*
+
+1. RouterModule Configuration Basics
+To use routing, we call:
+    RouterModule.forRoot(routes, configObject)
+        const routes:Routes
+            thats where your route list is
+        configObject is optional but lets you customize router behavior.
+            eg preloading strategy
+                refresh Controls how lazy-loaded modules are preloaded.
+                Can use:
+                    NoPreloading (default)
+                    PreloadAllModules
+                    Or a custom strategy
+
+2. Other Common Extra Configuration Options
+enableTracing
+    if Set to true, will activate debug mode for router events, console log a bunch of things
+    RouterModule.forRoot(routes, { enableTracing: true })
+    Logs:
+        NavigationStart
+        GuardsCheckStart
+        NavigationEnd
+            notice Useful for debugging but should be disabled in production.
+
+3. Use Hash Location Strategy
+If your server can’t handle fallback to index.html on unknown routes:
+    Set useHash: true
+    Changes URLs from: /courses >> /#/courses
+Why use it?
+    Anything after # is ignored by the server.
+    Ensures the browser always loads index.html, even if user refreshes a deep link.
+    Good fallback when server config changes aren't possible.
+
+How to enable:
+    RouterModule.forRoot(routes, { useHash: true })
+
+You Now Know (Course 31):
+    How to use the RouterModule.forRoot() configuration object.
+    How to debug router transitions with enableTracing.
+    How and when to use the hash location strategy (useHash: true) to prevent server-side routing issues.
+    That useHash URLs work reliably across any server without extra config.
+
+*/
