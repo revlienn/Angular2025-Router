@@ -96,3 +96,39 @@ You now know (Course 26)
 
 
 */
+
+// COURSE 27
+/*
+
+1. What Are Query Parameters?
+Parameters in the URL after a ?, like:  
+    /courses/1?couponCode=newYear
+    /courses/1?couponCode=newYear&couponSource=udemy, multiple with &ampersand&
+Used for things like promotions, filters, tracking, etc.
+
+2. How to Access Query Params in Angular
+In a component (e.g. CourseComponent)
+    inject ActivatedRoute.
+    onInit, this.route.snapshot.queryParamMap.get('paramName');
+Alternatively, subscribe to changes over time:
+    this.route.queryParams.subscribe(params => {
+        this.couponCode = params['couponCode'];
+    });
+
+3. How to add Query Params Programmatically
+In template, the tag with routerLink, use queryParams prop
+    <a [routerLink]="['/courses', course.id]" [queryParams]="{ couponCode: 'newYear' }">
+    View Course
+    </a>
+
+4. Real Example
+Clicking a “View Course” link adds ?couponCode=newYear to the URL.
+The course page reads the query param and shows the discount message.
+
+You now know (Course 27)
+    What URL query parameters are and when to use them.
+    How to read them from ActivatedRoute.snapshot or via queryParams observable.
+    How to add query parameters to a route using queryParams in routerLink.
+    Snapshot is fine for initial load; use observable if query parameters might change while staying on the same component instance.
+
+*/
